@@ -1145,6 +1145,7 @@ Resources:
             - !Sub [" --resource ClusterNodeLaunchConfig --region ${Region}\n", {Region: !Ref "AWS::Region"}]
             - !Sub ["/opt/aws/bin/cfn-signal -e $? --stack ${StackName}", {StackName: !Ref "AWS::StackName"}]
             - !Sub [" --resource ClusterNodeLaunchConfig --region ${Region}", {Region: !Ref "AWS::Region"}]
+  #Scaling policies to respond during resource usage spikes
   ClusterNodeScaleUpPolicy:
     Type: AWS::AutoScaling::ScalingPolicy
     Properties:
@@ -1159,6 +1160,7 @@ Resources:
       AutoScalingGroupName: !Ref ClusterNodeGroup
       Cooldown: '600'
       ScalingAdjustment: -1
+  #Scaling policy alarms
   CPUAlarmHigh:
     Type: AWS::CloudWatch::Alarm
     Properties:
