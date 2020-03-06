@@ -9,4 +9,4 @@ global:
 tests:
   jira:
     parameter_input: quickstart-jira-dc-params.json
-    template_file: quickstart-jira-dc-with-vpc.template.yaml
+    template_file: quickstart-crowd-dc-with-vpc.template.yaml
