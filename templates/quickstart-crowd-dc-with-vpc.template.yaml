@@ -513,12 +513,12 @@ Parameters:
     Type: String
     AllowedValues:
       - Software
-    CrowdVersion:
-      Default: 4.0.0
-      AllowedPattern: '(\d+\.\d+\.\d+(-?.*))|(latest)'
-      ConstraintDescription: Must be a valid version number or 'latest'; for example, 4.0.0 for Crowd Software.
-      Description: The version of Crowd Software to install. Find valid versions at https://confluence.atlassian.com/crowd/crowd-4-0-release-notes-994320250.html (Crowd Software) or https://confluence.atlassian.com/x/XM2EO (Atlassian Enterprise Releases).
-      Type: String
+  CrowdVersion:
+    Default: 4.0.0
+    AllowedPattern: '(\d+\.\d+\.\d+(-?.*))|(latest)'
+    ConstraintDescription: Must be a valid version number or 'latest'; for example, 4.0.0 for Crowd Software.
+    Description: The version of Crowd Software to install. Find valid versions at https://confluence.atlassian.com/crowd/crowd-4-0-release-notes-994320250.html (Crowd Software) or https://confluence.atlassian.com/x/XM2EO (Atlassian Enterprise Releases).
+    Type: String
   JvmHeapOverride:
     Default: ''
     Description: Override the default amount of memory to allocate to the JVM for your instance type - set size in meg or gig e.g. 1024m or 1g
