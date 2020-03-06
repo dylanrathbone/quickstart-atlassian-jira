@@ -25,7 +25,7 @@
     },
     {
         "ParameterKey": "CustomDnsName",
-        "ParameterValue": "qsjiraci.awsqs.com"
+        "ParameterValue": "qscrowdci.awsqs.com"
     },
     {
         "ParameterKey":"QSS3BucketName",
