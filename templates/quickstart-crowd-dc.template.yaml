@@ -933,7 +933,7 @@ Mappings:
       shortdisplayname: '"Crowd SW"'
       fulldisplayname: '"Atlassian Crowd Software"'
 Resources:
-  CrowdClusterNodeRole:
+  ClusterNodeRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -971,11 +971,11 @@ Resources:
                   - !Sub 'arn:${AWS::Partition}:route53:::change/*'
                   - !Sub 'arn:${AWS::Partition}:route53:::hostedzone/*'
                   - !Sub 'arn:${AWS::Partition}:route53:::delegationset/*'
-  CrowdClusterNodeInstanceProfile:
+  ClusterNodeInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Path: /
-      Roles: [!Ref CrowdClusterNodeRole]
+      Roles: [!Ref ClusterNodeRole]
   # Crowd node config
   ClusterNodeGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -1123,7 +1123,7 @@ Resources:
         - DeviceName: /dev/xvdf
           NoDevice: true
       KeyName: !If [ KeyProvided, !Ref KeyPairName, !ImportValue ATL-DefaultKey ]
-      IamInstanceProfile: !Ref CrowdClusterNodeInstanceProfile
+      IamInstanceProfile: !Ref ClusterNodeInstanceProfile
       ImageId:
         !FindInMap
           - AWSRegionArch2AMI
