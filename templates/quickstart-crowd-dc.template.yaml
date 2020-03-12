@@ -7,7 +7,6 @@ Metadata:
       - Label:
           default: Crowd setup
         Parameters:
-          - CrowdProduct
           - CrowdVersion
       - Label:
           default: Cluster nodes
@@ -152,8 +151,6 @@ Metadata:
         default: Route 53 Hosted Zone
       InternetFacingLoadBalancer:
         default: Make instance internet facing
-      CrowdProduct:
-        default: Crowd Product *
       CrowdVersion:
         default: Version *
       JvmHeapOverride:
@@ -495,12 +492,6 @@ Parameters:
     ConstraintDescription: Must be 'true' or 'false'.
     Description: Controls whether the load balancer should be visible to the internet (true) or only within the VPC (false).
     Type: String
-  CrowdProduct:
-    Default: Software
-    Description: The Crowd product to install.
-    Type: String
-    AllowedValues:
-      - Software
   CrowdVersion:
     Default: 4.0.0
     AllowedPattern: '(\d+\.\d+\.\d+(-?.*))|(latest)'
@@ -928,10 +919,10 @@ Mappings:
       HVM64: ami-a2d938d3
 
   CROWDProduct2NameAndVersion:
-    Software:
-      name: crowd-software
-      shortdisplayname: '"Crowd SW"'
-      fulldisplayname: '"Atlassian Crowd Software"'
+    CrowdNamingDetails:
+      name: "Crowd Data Center"
+      shortdisplayname: "Crowd"
+      fulldisplayname: "Atlassian Crowd Data Center"
 Resources:
   ClusterNodeRole:
     Type: AWS::IAM::Role
@@ -1024,7 +1015,6 @@ Resources:
                     - "ATL_RELEASE_S3_PATH=releases"
                     - "ATL_SSL_SELF_CERT_ENABLED=false"
                     - ""
-                    - !Sub ["ATL_PRODUCT_EDITION=${Edition}", Edition: !Ref CrowdProduct]
                     - !Sub ["ATL_PRODUCT_VERSION=${ProductVersion}", ProductVersion: !Ref CrowdVersion]
                     - !Sub ["ATL_EFS_ID=${ElasticFileSystem}", ElasticFileSystem: !Ref ElasticFileSystem]
                     - !If [DoSSL, "ATL_SSL_PROXY=true", !Ref "AWS::NoValue"]
@@ -1048,9 +1038,9 @@ Resources:
                     - !Sub ["ATL_HOSTEDZONE=${HostedZone}", HostedZone: !Ref HostedZone]
                     - !Sub ["ATL_JDBC_PASSWORD='${DBPassword}'", DBPassword: !Ref DBPassword]
                     - !Sub ["ATL_JDBC_URL=jdbc:postgresql://${DBEndpointAddress}:${DBEndpointPort}/crowd?targetServerType=master", { DBEndpointAddress: !GetAtt DB.Outputs.RDSEndPointAddress, DBEndpointPort: !GetAtt DB.Outputs.RDSEndPointPort }]
-                    - !Sub ["ATL_CROWD_FULL_DISPLAY_NAME=${CrowdFullDisplayName}", CrowdFullDisplayName: !FindInMap [ "CROWDProduct2NameAndVersion", !Ref CrowdProduct, "fulldisplayname"]]
-                    - !Sub ["ATL_CROWD_NAME=${CrowdProductName}", CrowdProductName: !FindInMap [ "CROWDProduct2NameAndVersion", !Ref CrowdProduct, "name"]]
-                    - !Sub ["ATL_CROWD_SHORT_DISPLAY_NAME=${CrowdShortDisplayName}", CrowdShortDisplayName: !FindInMap [ "CROWDProduct2NameAndVersion", !Ref CrowdProduct, "shortdisplayname"]]
+                    - !Sub ["ATL_CROWD_FULL_DISPLAY_NAME=${CrowdFullDisplayName}", CrowdFullDisplayName: !FindInMap [ "CROWDProduct2NameAndVersion", "CrowdNamingDetails", "fulldisplayname"]]
+                    - !Sub ["ATL_CROWD_NAME=${CrowdProductName}", CrowdProductName: !FindInMap [ "CROWDProduct2NameAndVersion", "CrowdNamingDetails", "name"]]
+                    - !Sub ["ATL_CROWD_SHORT_DISPLAY_NAME=${CrowdShortDisplayName}", CrowdShortDisplayName: !FindInMap [ "CROWDProduct2NameAndVersion", "CrowdNamingDetails", "shortdisplayname"]]
                     - !Sub ["ATL_JVM_HEAP=${AtlJvmHeap}", AtlJvmHeap: !If [OverrideHeap, !Ref 'JvmHeapOverride', !FindInMap [AWSInstanceType2Arch, !Ref ClusterNodeInstanceType, Jvmheap]]]
                     - !Sub ["ATL_PROXY_NAME=${AtlProxyName}", AtlProxyName: !If [UseCustomDnsName, !Ref CustomDnsName, !If [UseHostedZone, !Ref LoadBalancerCname, !GetAtt LoadBalancer.DNSName]]]
                     - !Sub ["ATL_TOMCAT_ACCEPTCOUNT=${TomcatAcceptCount}", TomcatAcceptCount: !Ref TomcatAcceptCount]
@@ -1407,7 +1397,7 @@ Resources:
         - QSS3Region: !If ["GovCloudCondition", "s3-us-gov-west-1", "s3"]
       Parameters:
         ProductStackName: !Sub "${AWS::StackName}"
-        ProductFamilyName: !FindInMap [ "CROWDProduct2NameAndVersion", !Ref CrowdProduct, "name"]
+        ProductFamilyName: !FindInMap [ "CROWDProduct2NameAndVersion", "CrowdNamingDetails", "name"]
         AsgToMonitor: !Ref ClusterNodeGroup
         DatabaseIdentifier: !Sub ["${DBStackNamePrefix}-db", {DBStackNamePrefix: !Ref 'AWS::StackName'}]
 
