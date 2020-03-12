@@ -920,9 +920,9 @@ Mappings:
 
   CROWDProduct2NameAndVersion:
     CrowdNamingDetails:
-      name: "Crowd Data Center"
-      shortdisplayname: "Crowd"
-      fulldisplayname: "Atlassian Crowd Data Center"
+      name: '"Crowd Data Center"'
+      shortdisplayname: '"Crowd"'
+      fulldisplayname: '"Atlassian Crowd Data Center"'
 Resources:
   ClusterNodeRole:
     Type: AWS::IAM::Role
