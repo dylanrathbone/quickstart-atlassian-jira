@@ -920,7 +920,7 @@ Mappings:
 
   CROWDProduct2NameAndVersion:
     CrowdNamingDetails:
-      name: '"Crowd Data Center"'
+      name: crowd
       shortdisplayname: '"Crowd"'
       fulldisplayname: '"Atlassian Crowd Data Center"'
 Resources:
