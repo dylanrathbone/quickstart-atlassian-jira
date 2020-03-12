@@ -1,6 +1,7 @@
 # quickstart-atlassian-crowd
 ## Crowd Software Data Center on the AWS Cloud
 
+
 Use this Quick Start to deploy Crowd Data Center on the AWS Cloud.
 
 Crowd lets you centralize identity management. Manage users from multiple directories - Active Directory, LDAP, OpenLDAP or Microsoft Azure AD - and control application authentication permissions in one single location.
