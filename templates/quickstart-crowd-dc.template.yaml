@@ -1399,7 +1399,6 @@ Resources:
         ProductStackName: !Sub "${AWS::StackName}"
         ProductFamilyName: !FindInMap [ "CROWDProduct2NameAndVersion", "CrowdNamingDetails", "name"]
         AsgToMonitor: !Ref ClusterNodeGroup
-        DatabaseIdentifier: !Sub ["${DBStackNamePrefix}-db", {DBStackNamePrefix: !Ref 'AWS::StackName'}]
 
 Outputs:
   ServiceURL:
